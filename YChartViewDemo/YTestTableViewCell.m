@@ -20,7 +20,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        YChartView *chartV = [[YChartView alloc] initWithFrame:CGRectMake(10, 0, 280, 100)];
+        YChartView *chartV = [[YChartView alloc] initWithFrame:CGRectMake(20, 10, [[UIScreen mainScreen] bounds].size.width-40, 100)];
         chartV.displaysAsynchronously = YES;
         _chartV = chartV;
         [self.contentView addSubview:chartV];

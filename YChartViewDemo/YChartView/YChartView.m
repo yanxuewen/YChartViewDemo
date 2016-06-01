@@ -16,12 +16,6 @@ static dispatch_queue_t YChartGetReleaseQueue() {
 #define kAsyncFadeDuration 0.08
 
 @interface YChartView ()<YChartAsyncLayerDelegate>
-{
-    struct {
-        
-        unsigned int contentsNeedFade : 1;
-    } _state;
-}
 
 @property (strong,nonatomic) YChartLayout *chartLayout;
 
