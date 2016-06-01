@@ -64,6 +64,7 @@
         [self.view addSubview:fps];
     }
     
+    [self testGCDTarget];
 }
 
 - (void)swithcON:(UISwitch *)sender{
@@ -80,6 +81,49 @@
     cell.dataArray = _dataArray;
     return cell;
 }
+
+
+-(void)testGCDTarget {
+    //可修改 targetQueue DISPATCH_QUEUE_SERIAL 为 DISPATCH_QUEUE_CONCURRENT
+    dispatch_queue_t targetQueue = dispatch_queue_create("test.target.queue", DISPATCH_QUEUE_SERIAL);
+    
+    dispatch_queue_t queue1 = dispatch_queue_create("test.1", DISPATCH_QUEUE_SERIAL);
+    dispatch_queue_t queue2 = dispatch_queue_create("test.2", DISPATCH_QUEUE_SERIAL);
+    dispatch_queue_t queue3 = dispatch_queue_create("test.3", DISPATCH_QUEUE_SERIAL);
+    
+    dispatch_set_target_queue(queue1, targetQueue);
+    dispatch_set_target_queue(queue2, targetQueue);
+    dispatch_set_target_queue(queue3, targetQueue);
+    
+    
+    dispatch_async(queue1, ^{
+        NSLog(@"1 in %s",dispatch_queue_get_label(queue1));
+        
+        [NSThread sleepForTimeInterval:3.f];
+        NSLog(@"1 out %s",dispatch_queue_get_label(queue1));
+    });
+    
+    dispatch_async(queue2, ^{
+        NSLog(@"2 in %s",dispatch_queue_get_label(queue2));
+        [NSThread sleepForTimeInterval:2.f];
+        NSLog(@"2 out %s",dispatch_queue_get_label(queue2));
+    });
+    dispatch_async(queue3, ^{
+        NSLog(@"3 in %s",dispatch_queue_get_label(queue3));
+        [NSThread sleepForTimeInterval:1.f];
+        NSLog(@"3 out %s",dispatch_queue_get_label(queue3));
+    });
+    
+    dispatch_async(queue1, ^{
+        NSLog(@"4 in %s",dispatch_queue_get_label(queue1));
+        
+        [NSThread sleepForTimeInterval:1.f];
+        NSLog(@"4 out %s",dispatch_queue_get_label(queue1));
+    });
+    
+}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

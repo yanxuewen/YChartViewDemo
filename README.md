@@ -1,4 +1,4 @@
 # YChartViewDemo
 ---
-**声明**:本demo中代码思路从YYLabel中copy出来
+用YYLabel中方法实现异步画图的ChartView。
 
